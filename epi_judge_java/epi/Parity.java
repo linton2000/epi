@@ -14,8 +14,8 @@ public class Parity {
 
     // Optimal #1 - See _parity()
 
-    // Optimal #2
-    final int MASK_SIZE = 16;   // Masking four 16-bit subwords
+    // Optimal #2: O()
+/*     final int MASK_SIZE = 16;   // Masking four 16-bit subwords
     final int BIT_MASK = 0xFFFF;   // 16-bit mask containing all 1s
 
     short[] lookupTable = precomputeParity(16);
@@ -24,7 +24,16 @@ public class Parity {
     short p3 = lookupTable[(int) ((x >>> MASK_SIZE) & BIT_MASK)];
     short p4 = lookupTable[(int) (x & BIT_MASK)];   // No shifting as it's already at the end
 
-    return (short) (p1 ^ p2 ^ p3 ^ p4);
+    return (short) (p1 ^ p2 ^ p3 ^ p4); */
+
+    // Optimal #3
+    x ^= x >>> 32;
+    x ^= x >>> 16;
+    x ^= x >>> 8;
+    x ^= x >>> 4;
+    x ^= x >>> 2;
+    x ^= x >>> 1;
+    return (short) (x & 0x1);  // Using 0x to highlight bitwise intent.
   }
 
   /**
