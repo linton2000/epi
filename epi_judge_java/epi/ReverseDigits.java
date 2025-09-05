@@ -5,7 +5,7 @@ public class ReverseDigits {
   @EpiTest(testDataFile = "reverse_digits.tsv")
   public static long reverse(int x) {
     // Brute Force - Repeated div & mod by 10
-    long sign = 1;
+/*     long sign = 1;
     if (x < 0){
       sign = -1;
       x = -x;
@@ -19,7 +19,15 @@ public class ReverseDigits {
       x /= 10;
       i -= 1;
     }
-    return res * sign;
+    return res * sign; */
+
+    // Optimal - Same sol but simplified code
+    long res = 0;
+    while (x != 0) {  // Repeated div by 10 always results in 0
+      res = (res * 10) + (x % 10);  // Very elegant!
+      x /= 10;
+    }
+    return res;
   }
 
   public static void main(String[] args) {
