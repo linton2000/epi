@@ -13,9 +13,10 @@ public class PrimitiveDivide {
     }
     return divide(x - y, y) + 1; */
 
-    // Optimal 1 (from Textbook)
+    // Optimal 1 (initial approach)
     // Find largest k: (2^k)y <= x. Set x = 2*2^k and q += 2^k. Repeat divide.
-    if (x < y) {
+    // Time Complexity: O(n^2), where n - num of quotient bits
+/*     if (x < y) {
       return 0;
     }
     
@@ -23,11 +24,26 @@ public class PrimitiveDivide {
     while (y < (x >>> (k+1))) {
       k += 1;
     }
-    return divide(x - (1 << k)*y, y) + (1 << k);
+    return divide(x - (1 << k)*y, y) + (1 << k); */
+
+    // Optimal 2 (textbook sol) - Simplify k finding
+    // Note: Assumes non-negative inputs
+    int q = 0;
+    int k = 0;
+    while (y <= (x >>> (k+1)))
+      k += 1;
+    
+    while (x >= y){
+      while (y > (x >>> k))
+        k -= 1;
+      x -= (1 << k) * y;
+      q += 1 << k;
+    }
+    return q;
   }
 
   public static void main(String[] args) {
-    //System.out.println(divide(2097428739, 186));
+    //System.out.println(divide(123, 3));
     System.exit(
         GenericTest
             .runFromAnnotations(args, "PrimitiveDivide.java",
