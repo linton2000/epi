@@ -6,7 +6,7 @@ public class PowerXY {
   public static double power(double x, int y) {
     // Optimal 1 - Recusrive products of squares
     // Time Complexity - O(y); Space - O(log y) [recursion depth]
-    if (y < 0) {  // Hanlde neg. args
+/*     if (y < 0) {  // Hanlde neg. args
       x = 1 / x;
       y = y < 0 ? -y : y;
     }
@@ -20,7 +20,25 @@ public class PowerXY {
     if ((y & 1) == 0)
       return power(x, y/2) * power(x, y/2);
     
-    return power(x, y/2) * power(x, y/2) * x;
+    return power(x, y/2) * power(x, y/2) * x; */
+
+    // Textbook Sol - Iterative squaring
+    // Time complexity - O(log y); Space - O(1)
+    double res = 1.0;
+    if (y < 0) {  // Hanlde neg. args
+      x = 1 / x;
+      y = y < 0 ? -y : y;
+    }
+
+    while (y != 0){
+      if ((y & 1) == 1)
+        res *= x;
+      
+      x *= x;   // Repeated squaring
+      y >>= 1;  // Divide by 2
+    }
+
+    return res;
   }
 
   public static void main(String[] args) {
