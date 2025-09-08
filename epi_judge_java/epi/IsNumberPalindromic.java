@@ -5,7 +5,8 @@ public class IsNumberPalindromic {
   @EpiTest(testDataFile = "is_number_palindromic.tsv")
   public static boolean isPalindromeNumber(int x) {
     // Initial Attempt - Repeated div by 10 & reverse digits, i.e. 1331: 1331/100 == rev(31)?
-    if (x < 0) return false;  // The sign makes it non-palindromic
+    // Couldn't make this work :(
+/*     if (x < 0) return false;  // The sign makes it non-palindromic
     if (x < 10) return true;  // All single digits are palindromes
 
     int i = 0;
@@ -21,16 +22,29 @@ public class IsNumberPalindromic {
     if (hasEvenDigits(x) != hasEvenDigits(rev))  // Shave off the odd middle digit
       x /= 10;
     
-    return x == rev;
-  }
+    return x == rev; */
 
-  public static boolean hasEvenDigits(int x){
-    if (x < 10) return false;
-    return (((int) (Math.log10(x)) + 1) % 2) == 0;
+    // Textbook Solution
+    if (x <= 0)
+      return x == 0;
+    
+    final int numDigits = (int) Math.log10(x) + 1;
+    int msdMask = (int) Math.pow(10, numDigits - 1);
+
+    for (int i = 0; i < (numDigits / 2); i++){
+      if (x / msdMask != x % 10)
+        return false;
+      
+      x %= msdMask;
+      x /= 10;
+      msdMask /= 100;
+    }
+
+    return true;
   }
 
   public static void main(String[] args) {
-    System.out.println(isPalindromeNumber(1810));
+    System.out.println(isPalindromeNumber(100000021));
 /*     System.exit(
         GenericTest
             .runFromAnnotations(args, "IsNumberPalindromic.java",
