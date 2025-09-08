@@ -16,6 +16,7 @@ public class UniformRandomNumber {
 
   public static int uniformRandom(int lowerBound, int upperBound) {
     // Initial Attempt (looking at textbook) - Create rand binary int less than upperbound
+    // Note: There is an integer overflow error if bIndex >= 31
     int nBound = upperBound - lowerBound; // Normalised to 0
     int bIndex = 0; // Binary bound
     while ((1 << bIndex) <= nBound)
@@ -59,10 +60,11 @@ public class UniformRandomNumber {
   }
 
   public static void main(String[] args) {
-    System.exit(
+    System.out.println(uniformRandom(0, 2147483647));
+/*     System.exit(
         GenericTest
             .runFromAnnotations(args, "UniformRandomNumber.java",
                                 new Object() {}.getClass().getEnclosingClass())
-            .ordinal());
+            .ordinal()); */
   }
 }
