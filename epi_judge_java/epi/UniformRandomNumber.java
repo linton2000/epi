@@ -15,8 +15,21 @@ public class UniformRandomNumber {
   }
 
   public static int uniformRandom(int lowerBound, int upperBound) {
-    // TODO - you fill in here.
-    return 0;
+    // Initial Attempt (looking at textbook) - Create rand binary int less than upperbound
+    int nBound = upperBound - lowerBound; // Normalised to 0
+    int bIndex = 0; // Binary bound
+    while ((1 << bIndex) <= nBound)
+      bIndex++;
+
+    while (true){
+      int res = 0;
+      for (int i = 0; i < bIndex; i++){
+        res += zeroOneRandom() << i;
+      }
+
+      if (res <= nBound)
+        return lowerBound + res;
+    }
   }
   private static boolean uniformRandomRunner(TimedExecutor executor,
                                              int lowerBound, int upperBound)
