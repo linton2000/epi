@@ -51,10 +51,18 @@ public class RectangleIntersection {
       return "[" + x + ", " + y + ", " + width + ", " + height + "]";
     }
   }
+  
   @EpiTest(testDataFile = "rectangle_intersection.tsv")
   public static Rect intersectRectangle(Rect r1, Rect r2) {
-    // TODO - you fill in here.
-    return new Rect(0, 0, 0, 0);
+    // Initial Attempt (used chatgpt to get simplified formulas below)
+    // Intersection - which ending point starts first & which starting point ends first...
+    int xd = Math.min(r2.x + r2.width, r1.x + r1.width) - Math.max(r2.x, r1.x);
+    int yd = Math.min(r2.y + r2.height, r1.y + r1.height) - Math.max(r2.y, r1.y);
+
+    if (xd >= 0 && yd >= 0)
+      return new Rect(Math.max(r1.x, r2.x), Math.max(r1.y, r2.y), xd, yd);
+    
+    return new Rect(0, 0, -1, -1);
   }
 
   public static void main(String[] args) {
