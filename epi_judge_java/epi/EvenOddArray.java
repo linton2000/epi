@@ -10,7 +10,15 @@ import java.util.List;
 public class EvenOddArray {
 
   public static void evenOdd(List<Integer> A) {
-    // TODO - you fill in here.
+    // Textbook Sol - 3 subarrays: odd, even & unclassified
+    int nextEven = 0, nextOdd = A.size() - 1;
+    while (nextEven < nextOdd) {
+      if (A.get(nextEven) % 2 == 0){  // If element is already even
+        nextEven++;
+      } else {
+        Collections.swap(A, nextEven, nextOdd--);
+      }
+    }
     return;
   }
   @EpiTest(testDataFile = "even_odd_array.tsv")
