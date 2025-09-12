@@ -190,7 +190,7 @@ problem_mapping = {
                 "total": 204
             },
             "Java: DutchNationalFlag.java": {
-                "passed": 204,
+                "passed": 24,
                 "total": 204
             },
             "Python: dutch_national_flag.py": {
