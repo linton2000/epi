@@ -53,7 +53,7 @@ public class DutchNationalFlag {
       while (A.get(gp) == Color.BLUE) {
         gp--;
       }
-      if (A.get(i) == Color.BLUE) {
+      if (A.get(i) == Color.BLUE && i < gp) {
         Collections.swap(A, i, gp);
         gp--;
       }
@@ -61,6 +61,7 @@ public class DutchNationalFlag {
     }
     return;
   }
+
   @EpiTest(testDataFile = "dutch_national_flag.tsv")
   public static void dutchFlagPartitionWrapper(TimedExecutor executor,
                                                List<Integer> A, int pivotIdx)
@@ -101,7 +102,29 @@ public class DutchNationalFlag {
     }
   }
 
+  public static List<Color> createColors() {
+        int[] arr = {
+            0, 2, 2, 2, 2, 0, 1, 2, 0, 2, 0, 1, 1, 1, 2, 2, 2, 2, 2,
+            1, 1, 2, 0, 2, 2, 1, 0, 0, 1, 1, 2, 2, 1, 2, 0, 1, 0, 1, 2,
+            1, 0, 2, 2, 2, 0, 1, 0, 0, 2, 2, 0, 0, 0, 2, 1, 2, 1, 0, 1,
+            2, 2, 2, 2, 1, 0, 2, 2, 2, 2, 0, 1, 2, 1, 2, 2, 1, 2, 1, 0,
+            0, 1, 1, 1, 2, 2, 1, 0, 0, 0, 2, 1, 0, 2
+        };
+
+        List<Color> colors = new ArrayList<>();
+        Color[] palette = Color.values();
+
+        for (int val : arr) {
+            colors.add(palette[val]);
+        }
+
+        return colors;
+    }
+
   public static void main(String[] args) {
+/*     List<Color> A = createColors();
+    dutchFlagPartition(0, A);
+    System.out.println(A); */
     System.exit(
         GenericTest
             .runFromAnnotations(args, "DutchNationalFlag.java",
