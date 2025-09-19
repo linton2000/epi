@@ -34,9 +34,9 @@ public class DutchNationalFlag {
     A.clear();
     A.addAll(res);  // Deep copy into A */
 
-    // Brute Force - In-place (more time, less space)
-    // Space: O(1), Time: O(n^2)
-    int lp = 0;
+    // Optimal - In-place
+    // Space: O(1), Time: O(n)
+/*     int lp = 0;
 
     // First pass - Move all elements less than pivot to 1st subarray
     for (int i = 0; i < A.size(); i++) {
@@ -59,7 +59,25 @@ public class DutchNationalFlag {
       }
       i++;
     }
-    return;
+    return; */
+
+    // Optimal - Textbook sol (same complexity, less code)
+    // Split into 4 subarrays: 
+    // A[:lo] (less than pivot) + A[lo:mid] (equal to pivot) + A[mid:hi] (unclassified) + A[hi:] (greater than pivot)
+    int lo = 0, mid = 0, hi = A.size();
+    Color pvt = A.get(pivotIndex);
+
+    while (mid < hi) {  // Unclassified subarr not empty
+      if (A.get(mid).ordinal() < pvt.ordinal()){
+        Collections.swap(A, lo++, mid++); // Swap unclass. with 1st element equal to pivot
+      }
+      else if (A.get(mid).ordinal() == pvt.ordinal()) {
+        mid++;  // Keep it where it is and move unclassified subarr ptr
+      }
+      else {  // Greater than pivot
+        Collections.swap(A, mid, --hi); // Swap with last unclassified element (hi - 1)
+      }
+    }
   }
 
   @EpiTest(testDataFile = "dutch_national_flag.tsv")
