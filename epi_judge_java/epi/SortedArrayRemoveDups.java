@@ -10,22 +10,34 @@ import java.util.List;
 public class SortedArrayRemoveDups {
   // Returns the number of valid entries after deletion.
   public static int deleteDuplicates(List<Integer> A) {
-    // Initial Attempt
-/*     for (int i = 0; i < (A.size() - 1); i++) {
-      int j = i;
-      while (A.get(j) == A.get(j + 1))
-        j++;
+    // Initial Attempt - Brute force
+    List<Integer> res = new ArrayList<>();
 
-      // Shuffle left & overwrite duplicates
-      int k = 1;
-      while (k <= (j - i)) {
-        A.set(i + k, A.get(j + k));
-        k++;
+    for (int i = 0; i < (A.size() - 1); i++) {
+      // Find duplicates
+      int j = i;
+      while (j < (A.size() - 1) && A.get(j) != null && A.get(j+1) != null 
+      && A.get(j).equals(A.get(j + 1).intValue())) {
+        j++;
+      }
+
+      // Set duplicates to null
+      while (j > i) {
+        A.set(j, null);
+        j--;
       }
     }
 
-    return A.size(); */
+    for (Integer e : A) {
+      if (e != null)
+        res.add(e);
+    }
+
+    A.clear();
+    A.addAll(res);
+    return A.size();
   }
+
   @EpiTest(testDataFile = "sorted_array_remove_dups.tsv")
   public static List<Integer> deleteDuplicatesWrapper(TimedExecutor executor,
                                                       List<Integer> A)
@@ -35,14 +47,10 @@ public class SortedArrayRemoveDups {
   }
 
   public static void main(String[] args) {
-    List<Integer> A = new ArrayList<>(Arrays.asList(2, 3, 5, 5, 7, 11, 11, 11, 13));
-    deleteDuplicates(A);
-    System.out.println(A);
-
-/*     System.exit(
+    System.exit(
         GenericTest
             .runFromAnnotations(args, "SortedArrayRemoveDups.java",
                                 new Object() {}.getClass().getEnclosingClass())
-            .ordinal()); */
+            .ordinal());
   }
 }
