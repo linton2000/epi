@@ -11,7 +11,8 @@ public class SortedArrayRemoveDups {
   // Returns the number of valid entries after deletion.
   public static int deleteDuplicates(List<Integer> A) {
     // Initial Attempt - Brute force
-    List<Integer> res = new ArrayList<>();
+    // Time: O(n), Space: O(n)
+/*     List<Integer> res = new ArrayList<>();
 
     for (int i = 0; i < (A.size() - 1); i++) {
       // Find duplicates
@@ -35,7 +36,24 @@ public class SortedArrayRemoveDups {
 
     A.clear();
     A.addAll(res);
-    return A.size();
+    return A.size(); */
+
+    // Textbook Sol
+    // Use a write ptr to record 1st dup & overwrite with 1st element after dups (unique copy)
+    // Time: O(n), Space: (1)
+    // Invariant: Sublist to left of write ptr (i.e. A[:wp]) has no dups
+    if (A.isEmpty())
+      return 0;
+      
+    int wp = 1;
+
+    for (int i = 1; i < A.size(); i++) {
+      if (!A.get(wp - 1).equals(A.get(i))) {  // Has i reached a non-dup
+        A.set(wp++, A.get(i));
+      }
+    }
+
+    return wp;
   }
 
   @EpiTest(testDataFile = "sorted_array_remove_dups.tsv")
