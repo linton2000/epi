@@ -9,14 +9,14 @@ public class PrimeSieve {
   @EpiTest(testDataFile = "prime_sieve.tsv")
   // Given n, return all primes up to and including n.
   public static List<Integer> generatePrimes(int n) {
-    // Initial Attempt - Brute Force
-    // Time: O(n^2), Space: O(n)
+    // Initial Attempt - Brute Force (now updated with trial division optimisation)
+    // Time: O(n*sqrt(n)), Space: O(n)
     // Invariant: End of each iteration i, `res` contains exactly all primes in range [2...i]
     List<Integer> res = new ArrayList<>();
 
     for (int i = 2; i <= n; i++) {
       boolean isPrime = true;
-      for (int j = 2; j < i; j++) {
+      for (int j = 2; j <= Math.sqrt(i); j++) {
         if (i % j == 0) {
           isPrime = false;
           break;
