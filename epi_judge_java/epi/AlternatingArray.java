@@ -39,7 +39,7 @@ public class AlternatingArray {
     // 2nd Attempt - Sort A & interleave 1st & 2nd halves
     // Time: O(nlogn), Space: O(n)
     // Invariant: `res[0...i]` are all alternating for any given i
-    List<Integer> res = new ArrayList<>();
+/*     List<Integer> res = new ArrayList<>();
     A.sort(null);
 
     int i = 0, j = A.size() - 1;
@@ -51,6 +51,17 @@ public class AlternatingArray {
 
     A.clear();
     A.addAll(res);
+    return; */
+
+    // Textbook Sol - One pass localised swapping based on index parity
+    // Time: O(n), Space: O(1)
+    // Invariant: For res[0..i], all odd i elements: A[i-1] < A[i] & all even i elements: A[i-1] > A[i]
+
+    for (int i = 1; i < A.size(); i++) {
+      if ((i % 2 != 0 && A.get(i-1) > A.get(i)) ||
+           i % 2 == 0 && A.get(i-1) < A.get(i))
+        Collections.swap(A, i - 1, i);
+    }
     return;
   }
 
