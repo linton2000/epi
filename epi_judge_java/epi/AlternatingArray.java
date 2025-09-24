@@ -17,7 +17,7 @@ public class AlternatingArray {
     // Time: O(n^2), Space: O(n)
     // Invariant: All elements in res at any given time are alternating (i.e. res[0] <= res[1] >= res[2]...)
 
-    List<Integer> res = new ArrayList<>();
+/*     List<Integer> res = new ArrayList<>();
     final int N = A.size();
 
     for(int i = 0; i < N; i++) {
@@ -32,7 +32,24 @@ public class AlternatingArray {
         res.add(minVal);
       }
     }
-    
+
+    A.addAll(res);
+    return; */
+
+    // 2nd Attempt - Sort A & interleave 1st & 2nd halves
+    // Time: O(nlogn), Space: O(n)
+    // Invariant: `res[0...i]` are all alternating for any given i
+    List<Integer> res = new ArrayList<>();
+    A.sort(null);
+
+    int i = 0, j = A.size() - 1;
+    while (j >= (A.size() / 2)) {
+      if (i < (A.size()/2))
+        res.add(A.get(i++));
+      res.add(A.get(j--));
+    }
+
+    A.clear();
     A.addAll(res);
     return;
   }
