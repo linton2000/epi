@@ -7,11 +7,36 @@ import epi.test_framework.TimedExecutor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Collections;
+
 public class AlternatingArray {
+
   public static void rearrange(List<Integer> A) {
-    // TODO - you fill in here.
+    // Initial Attempt - Brute Force
+    // Find the max. & min. elements during each iteration. Remove from A and add to `res` every time.
+    // Time: O(n^2), Space: O(n)
+    // Invariant: All elements in res at any given time are alternating (i.e. res[0] <= res[1] >= res[2]...)
+
+    List<Integer> res = new ArrayList<>();
+    final int N = A.size();
+
+    for(int i = 0; i < N; i++) {
+      if (i % 2 != 0) {
+        int maxVal = Collections.max(A);
+        A.remove(Integer.valueOf(maxVal));
+        res.add(maxVal);
+      }
+      else {
+        int minVal = Collections.min(A);
+        A.remove(Integer.valueOf(minVal));
+        res.add(minVal);
+      }
+    }
+    
+    A.addAll(res);
     return;
   }
+
   private static void checkOrder(List<Integer> A) throws TestFailure {
     for (int i = 0; i < A.size(); ++i) {
       if ((i % 2) != 0) {
