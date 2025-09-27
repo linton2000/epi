@@ -2,10 +2,21 @@ package epi;
 import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
 public class ApplyPermutation {
   public static void applyPermutation(List<Integer> perm, List<Integer> A) {
-    // TODO - you fill in here.
+    // Initial Attempt - Brute Force
+    List<Integer> res = new ArrayList<>(Collections.nCopies(A.size(), null));
+    
+    for (int i = 0; i < A.size(); i++) {
+      res.set(perm.get(i), A.get(i));
+    }
+
+    A.clear();
+    A.addAll(res);
     return;
   }
   @EpiTest(testDataFile = "apply_permutation.tsv")
