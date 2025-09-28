@@ -42,7 +42,7 @@ public class ApplyPermutation {
       }
     } */
 
-    // Textbook Sol
+    // Textbook Sol - Does the exact same thing as above but in a simplified way
     for (int i = 0; i < A.size(); i++) {
       while (perm.get(i) != i) {
         Collections.swap(A, i, perm.get(i));
