@@ -25,7 +25,7 @@ public class ApplyPermutation {
     // Time: O(n), Space: O(1)
     // Invariant: At end of iteration i, all elements in the permutation cycle starting at A[i] have been
     // correctly permuted in A.
-    for (int i = 0; i < A.size(); i++) {
+/*     for (int i = 0; i < A.size(); i++) {
       int j = i;
       if (perm.get(j) != null) {
         int start = A.get(j);   // Start of cycle
@@ -39,6 +39,14 @@ public class ApplyPermutation {
           j = k;  // Set next Permutation index
           tmp = dis;
         } while (start != tmp);
+      }
+    } */
+
+    // Textbook Sol
+    for (int i = 0; i < A.size(); i++) {
+      while (perm.get(i) != i) {
+        Collections.swap(A, i, perm.get(i));
+        Collections.swap(perm, i, perm.get(i));
       }
     }
 
