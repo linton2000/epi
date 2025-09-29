@@ -35,7 +35,7 @@ public class NextPermutation {
     // 2nd Attempt - Swap the same as above but reverse instead of sort (as suffix
     // is alr. in desc. order)
     // Time: O(n), Space: O(1)
-    for (int i = perm.size() - 1; i > 0; i--) {
+/*     for (int i = perm.size() - 1; i > 0; i--) {
       if (perm.get(i - 1) < perm.get(i)) {
         // Swap to get correct element in prefix
         int di = i - 1; // Index of 1st non-conforming (decreasing) digit from the right
@@ -61,7 +61,29 @@ public class NextPermutation {
         return perm;
       }
     }
-    return new ArrayList<>();
+    return new ArrayList<>(); */
+
+    // Textbook Sol - Same as above but more compact & elegant code
+    int inversionPoint = perm.size() - 2;
+    while (inversionPoint >= 0 && perm.get(inversionPoint) >= perm.get(inversionPoint + 1))
+      inversionPoint--;
+    
+    if (inversionPoint == -1)
+      return new ArrayList<>();
+    
+    // Swap with smallest element to the right that's bigger than perm[inversionPoint].
+    // Since right subarray is in strict descending order, this will be the first element from the end
+    // that's bigger than perm[inversionPoint].
+    for (int i = perm.size() - 1; i > inversionPoint; i--) {
+      if (perm.get(i) > perm.get(inversionPoint)) {
+        Collections.swap(perm, inversionPoint, i);
+        break;
+      }
+    }
+
+    // Reverse suffix from inversionPoint to get the smallest successor permutation
+    Collections.reverse(perm.subList(inversionPoint + 1, perm.size()));
+    return perm;
   }
 
   public static void main(String[] args) {
