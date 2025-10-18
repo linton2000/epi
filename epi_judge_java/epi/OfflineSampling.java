@@ -15,7 +15,7 @@ public class OfflineSampling {
     // Initial Attempt - Brute Force sampling (biased towards tail)
     // Space: O(k)
     // Time: Unbounded (worst case), O(k) (average/best case)
-    Random rand = new Random();
+/*     Random rand = new Random();
     List<Integer> res = new ArrayList<>();
     while (k > 0) {
       if (rand.nextBoolean()){
@@ -25,6 +25,18 @@ public class OfflineSampling {
     }
     A.clear();
     A.addAll(res);
+    return; */
+
+    // Textbook Sol - Iteratively swap with a random val
+    // Time: O(k), Space: O(1)
+    // Invariant: At end of every iteration, A[0:i] contains a subset of A of size i that's equally likely
+    Random rand = new Random();
+    int i = 0;
+    while (i < k) {
+      int r = rand.nextInt(A.size() - i) + i; // Random index in [i, n)
+      Collections.swap(A, i, r);
+      i++;
+    }
     return;
   }
 
