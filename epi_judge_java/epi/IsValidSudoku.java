@@ -3,6 +3,7 @@ package epi;
 import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -11,9 +12,9 @@ import java.util.Map;
 public class IsValidSudoku {
   @EpiTest(testDataFile = "is_valid_sudoku.tsv")
 
-  // Check if a partially filled matrix has any conflicts.
-  public static boolean isValidSudoku(List<List<Integer>> partialAssignment) {
-    // Initial Attempt #1 - N^3 brute force
+
+  public static boolean bfSol(List<List<Integer>> partialAssignment) {
+    // Initial Attempt - N^3 brute force
     for (List<Integer> listI : partialAssignment) {   // Dups in rows
       for (int i = 0; i < listI.size(); i++) {
         int j = i + 1;
@@ -59,6 +60,51 @@ public class IsValidSudoku {
 
     return true;
   }
+
+  public static boolean isValidSudoku(List<List<Integer>> partialAssignment) {
+    int n = partialAssignment.size();
+    int subN = (int) Math.sqrt(n);
+
+    // One pass to check rows and columns cleanly
+    for (int i = 0; i < n; i++) {
+        boolean[] rowCheck = new boolean[n + 1];
+        boolean[] colCheck = new boolean[n + 1];
+        
+        for (int j = 0; j < n; j++) {
+            int rowElt = partialAssignment.get(i).get(j);
+            if (rowElt != 0) {
+                if (rowCheck[rowElt]) return false;
+                rowCheck[rowElt] = true;
+            }
+
+            int colElt = partialAssignment.get(j).get(i);
+            if (colElt != 0) {
+                if (colCheck[colElt]) return false;
+                colCheck[colElt] = true;
+            }
+        }
+    }
+
+    // Dynamic subgrid check without allocating an intervals list
+    for (int rowBlock = 0; rowBlock < n; rowBlock += subN) {
+        for (int colBlock = 0; colBlock < n; colBlock += subN) {
+            
+            boolean[] gridCheck = new boolean[n + 1];
+            // Traverse the current subgrid
+            for (int i = rowBlock; i < rowBlock + subN; i++) {
+                for (int j = colBlock; j < colBlock + subN; j++) {
+                    int elt = partialAssignment.get(i).get(j);
+                    if (elt != 0) {
+                        if (gridCheck[elt]) return false;
+                        gridCheck[elt] = true;
+                    }
+                }
+            }
+        }
+    }
+
+    return true;
+}
 
   public static void main(String[] args) {
 /*     List<List<Integer>> in0 = Arrays.asList(
