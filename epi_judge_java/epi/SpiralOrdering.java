@@ -10,8 +10,37 @@ public class SpiralOrdering {
   @EpiTest(testDataFile = "spiral_ordering.tsv")
 
   public static List<Integer> matrixInSpiralOrder(List<List<Integer>> squareMatrix) {
+    // Textbook Sol (same complexity but more concise)
+    List<Integer> res = new ArrayList<>();
+    int[][] directions = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+    int dir = 0, x = 0, y = 0;
+
+    int N = squareMatrix.size();
+    int nextX, nextY;
+    for (int i = 0; i < N*N; i++) {
+      res.add(squareMatrix.get(x).get(y));
+      squareMatrix.get(x).set(y, 0);
+
+      nextX = x + directions[dir][0];
+      nextY = y + directions[dir][1];
+
+      if (nextX < 0 || nextX >= squareMatrix.size() || 
+          nextY < 0 || nextY >= squareMatrix.size() || 
+          squareMatrix.get(nextX).get(nextY) == 0) {
+        dir = (dir + 1) % 4;
+        x += directions[dir][0];
+        y += directions[dir][1];
+      } else {
+        x = nextX;
+        y = nextY;
+      }
+    }
+
+    return res;
+
     // Initial Attempt 
     // Time & Space Complexity = O(N^2), for a NxN matrix
+    /*  
     List<Integer> res = new ArrayList<>();
 
     for (int k = 0; k <= (squareMatrix.size() / 2); k++) {
@@ -39,23 +68,15 @@ public class SpiralOrdering {
       }
     }
 
-    return res;
+    return res; */
   }
 
   public static void main(String[] args) {
-    /*
-     * List<List<Integer>> in1 = List.of(List.of(1, 2), List.of(3, 4));
-     * List<List<Integer>> in2 = List.of(List.of(1, 2, 3), List.of(4, 5, 6),
-     * List.of(7, 8, 9));
-     * System.out.println(matrixInSpiralOrder(in2));
-     */
-
     System.exit(
         GenericTest
             .runFromAnnotations(args, "SpiralOrdering.java",
                 new Object() {
                 }.getClass().getEnclosingClass())
             .ordinal());
-
   }
 }
