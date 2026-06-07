@@ -11,7 +11,7 @@ public class PascalTriangle {
   public static List<List<Integer>> generatePascalTriangle(int numRows) {
     // Initial Attempt - Also optimal
     // Time & Space complexity - O(n^2)
-    if (numRows < 1) {
+/*     if (numRows < 1) {
       return new ArrayList<>();
     }
     List<List<Integer>> res = new ArrayList<>();
@@ -28,6 +28,19 @@ public class PascalTriangle {
           res.get(i).add(elt);     // Middle numbers
         }
       }
+    } */
+
+    // Textbook sol - Cleaner
+    List<List<Integer>> res = new ArrayList<>();
+
+    for (int i = 0; i < numRows; i++) {
+      List<Integer> currRow = new ArrayList<>();
+
+      for (int j = 0; j <= i; j++) {
+        currRow.add((0 < j && j < i) ? res.get(i-1).get(j-1) + res.get(i-1).get(j)
+                                     : 1);
+      }
+      res.add(currRow);
     }
 
     return res;
